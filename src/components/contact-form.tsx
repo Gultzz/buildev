@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { Mail, MessageSquare, User, Send } from "lucide-react";
+import { useLanguage } from "@/context/language-context";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is too short"),
@@ -18,6 +19,8 @@ const formSchema = z.object({
 });
 
 export function ContactForm() {
+  const { t } = useLanguage();
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -31,8 +34,8 @@ export function ContactForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     toast({
-      title: "Message Sent!",
-      description: "We'll get back to you within 24 hours.",
+      title: t.contact.form.success,
+      description: t.contact.form.successDesc,
     });
     form.reset();
   }
@@ -42,9 +45,9 @@ export function ContactForm() {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 className="font-headline text-4xl md:text-5xl font-bold mb-6">Let's build <br/><span className="text-primary">together.</span></h2>
+            <h2 className="font-headline text-4xl md:text-5xl font-bold mb-6">{t.contact.title} <br/><span className="text-primary">{t.contact.titleAccent}</span></h2>
             <p className="text-lg text-muted-foreground mb-12 max-w-md">
-              Whether you have a fully scoped project or just an initial idea, we're here to help you navigate the technical landscape.
+              {t.contact.subtitle}
             </p>
             
             <div className="space-y-8">
@@ -53,7 +56,7 @@ export function ContactForm() {
                   <Mail className="w-6 h-6" />
                 </div>
                 <div>
-                  <p className="font-bold">Email Us</p>
+                  <p className="font-bold">{t.contact.emailUs}</p>
                   <p className="text-muted-foreground">hello@buildeiforge.com</p>
                 </div>
               </div>
@@ -62,8 +65,8 @@ export function ContactForm() {
                   <MessageSquare className="w-6 h-6" />
                 </div>
                 <div>
-                  <p className="font-bold">Live Chat</p>
-                  <p className="text-muted-foreground">Available Mon-Fri, 9am - 6pm EST</p>
+                  <p className="font-bold">{t.contact.liveChat}</p>
+                  <p className="text-muted-foreground">{t.contact.liveChatSub}</p>
                 </div>
               </div>
             </div>
@@ -78,7 +81,7 @@ export function ContactForm() {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Your Name</     FormLabel>
+                        <FormLabel className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{t.contact.form.name}</FormLabel>
                         <FormControl>
                           <div className="relative">
                             <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -94,7 +97,7 @@ export function ContactForm() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Email Address</FormLabel>
+                        <FormLabel className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{t.contact.form.email}</FormLabel>
                         <FormControl>
                           <div className="relative">
                             <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -111,7 +114,7 @@ export function ContactForm() {
                   name="company"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Company (Optional)</FormLabel>
+                      <FormLabel className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{t.contact.form.company}</FormLabel>
                       <FormControl>
                         <Input placeholder="ACME Inc." className="glass border-none focus-visible:ring-primary" {...field} />
                       </FormControl>
@@ -124,10 +127,10 @@ export function ContactForm() {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Project Details</FormLabel>
+                      <FormLabel className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{t.contact.form.details}</FormLabel>
                       <FormControl>
                         <Textarea 
-                          placeholder="Tell us about your project, timeline, and goals..." 
+                          placeholder={t.contact.form.placeholderDetails} 
                           className="min-h-[120px] glass border-none focus-visible:ring-primary" 
                           {...field} 
                         />
@@ -137,7 +140,7 @@ export function ContactForm() {
                   )}
                 />
                 <Button type="submit" size="lg" className="w-full h-14 text-base font-bold glow-primary">
-                  Send Message <Send className="ml-2 h-5 w-5" />
+                  {t.contact.form.submit} <Send className="ml-2 h-5 w-5" />
                 </Button>
               </form>
             </Form>

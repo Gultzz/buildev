@@ -16,6 +16,7 @@ const ClarifyProjectScopeInputSchema = z.object({
     .describe(
       'A high-level concept or nascent idea for a software project provided by a potential client.'
     ),
+  language: z.string().describe('The language in which the response should be provided (e.g., pt, en).').default('pt'),
 });
 export type ClarifyProjectScopeInput = z.infer<
   typeof ClarifyProjectScopeInputSchema
@@ -62,6 +63,8 @@ const clarifyProjectScopePrompt = ai.definePrompt({
   output: { schema: ClarifyProjectScopeOutputSchema },
   prompt: `You are an expert software consultant and project clarifier for Buildei, a software house.
 Your task is to take a client's high-level project idea and transform it into a structured and refined project scope.
+
+CRITICAL: You MUST provide the output in the requested language: {{{language}}}.
 
 Be professional, thorough, and provide clear, actionable insights.
 

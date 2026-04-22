@@ -2,9 +2,11 @@
 
 import { Code2, Github, Twitter, Linkedin, Instagram } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "@/context/language-context";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const { t } = useLanguage();
 
   return (
     <footer className="py-12 border-t border-white/5">
@@ -20,7 +22,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-muted-foreground max-w-sm leading-relaxed mb-6">
-              Elite software engineering house specializing in minimalist digital products and high-performance applications.
+              {t.footer.description}
             </p>
             <div className="flex gap-4">
               <Link href="#" className="p-2 rounded-lg bg-white/5 hover:bg-primary/20 hover:text-primary transition-all">
@@ -39,9 +41,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-headline font-bold mb-6 text-sm uppercase tracking-widest text-primary">Company</h4>
+            <h4 className="font-headline font-bold mb-6 text-sm uppercase tracking-widest text-primary">{t.footer.company}</h4>
             <ul className="space-y-4 text-sm text-muted-foreground">
-              <li><Link href="#services" className="hover:text-white transition-colors">Services</Link></li>
+              <li><Link href="#services" className="hover:text-white transition-colors">{t.nav.services}</Link></li>
               <li><Link href="#portfolio" className="hover:text-white transition-colors">Case Studies</Link></li>
               <li><Link href="#" className="hover:text-white transition-colors">About Us</Link></li>
               <li><Link href="#" className="hover:text-white transition-colors">Careers</Link></li>
@@ -49,7 +51,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-headline font-bold mb-6 text-sm uppercase tracking-widest text-accent">Tech stack</h4>
+            <h4 className="font-headline font-bold mb-6 text-sm uppercase tracking-widest text-accent">{t.footer.stack}</h4>
             <ul className="space-y-4 text-sm text-muted-foreground">
               <li>Next.js & React</li>
               <li>TypeScript</li>
@@ -60,11 +62,11 @@ export function Footer() {
         </div>
 
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
-          <p>© {currentYear} Buildei Forge. All rights reserved.</p>
+          <p>© {currentYear} Buildei Forge. {t.footer.rights}</p>
           <div className="flex gap-8">
-            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="#" className="hover:text-white transition-colors">Cookie Policy</Link>
+            <Link href="#" className="hover:text-white transition-colors">{t.footer.privacy}</Link>
+            <Link href="#" className="hover:text-white transition-colors">{t.footer.terms}</Link>
+            <Link href="#" className="hover:text-white transition-colors">{t.footer.cookies}</Link>
           </div>
         </div>
       </div>

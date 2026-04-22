@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { ArrowUpRight } from "lucide-react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { useLanguage } from "@/context/language-context";
 
 const projects = [
   {
@@ -27,19 +28,21 @@ const projects = [
 ];
 
 export function Portfolio() {
+  const { t } = useLanguage();
+  
   return (
     <section id="portfolio" className="py-24 bg-black/20">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div>
-            <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4">Recent Forges.</h2>
+            <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4">{t.portfolio.title}</h2>
             <p className="text-muted-foreground text-lg max-w-xl">
-              Take a look at the high-impact solutions we've crafted for our partners.
+              {t.portfolio.subtitle}
             </p>
           </div>
           <div className="flex gap-4">
             <div className="h-px w-20 bg-primary hidden md:block self-center mr-4" />
-            <span className="font-headline font-medium tracking-tighter text-2xl">03 / 100+ PROJECTS</span>
+            <span className="font-headline font-medium tracking-tighter text-2xl">03 / 100+ {t.portfolio.projects}</span>
           </div>
         </div>
 

@@ -2,12 +2,20 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Code2, Menu } from "lucide-react";
+import { Code2, Menu, Globe } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/language-context";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,23 +46,54 @@ export function Navbar() {
         </Link>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-medium">
-          <Link href="#services" className="hover:text-primary transition-colors">Services</Link>
-          <Link href="#portfolio" className="hover:text-primary transition-colors">Portfolio</Link>
+          <Link href="#services" className="hover:text-primary transition-colors">{t.nav.services}</Link>
+          <Link href="#portfolio" className="hover:text-primary transition-colors">{t.nav.portfolio}</Link>
           <Link href="#ai-clarifier" className="hover:text-primary transition-colors flex items-center gap-1.5">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            AI Tool
+            {t.nav.aiTool}
           </Link>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="gap-2 px-2">
+                <Globe className="h-4 w-4" />
+                <span className="uppercase">{language}</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="glass border-white/10">
+              <DropdownMenuItem onClick={() => setLanguage("pt")} className="cursor-pointer">
+                Português (PT)
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLanguage("en")} className="cursor-pointer">
+                English (EN)
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Link href="#contact">
-            <Button size="sm" className="glow-primary">Start Building</Button>
+            <Button size="sm" className="glow-primary">{t.nav.startBuilding}</Button>
           </Link>
         </div>
 
-        <Button variant="ghost" size="icon" className="md:hidden">
-          <Menu className="h-6 w-6" />
-        </Button>
+        <div className="md:hidden flex items-center gap-2">
+           <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Globe className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="glass">
+              <DropdownMenuItem onClick={() => setLanguage("pt")}>PT</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLanguage("en")}>EN</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button variant="ghost" size="icon">
+            <Menu className="h-6 w-6" />
+          </Button>
+        </div>
       </div>
     </nav>
   );
