@@ -16,7 +16,7 @@ const ClarifyProjectScopeInputSchema = z.object({
     .describe(
       'A high-level concept or nascent idea for a software project provided by a potential client.'
     ),
-  language: z.string().describe('The language in which the response should be provided (e.g., pt, en).').default('pt'),
+  language: z.string().describe('The language in which the response should be provided (e.g., pt, en, es).').default('pt'),
 });
 export type ClarifyProjectScopeInput = z.infer<
   typeof ClarifyProjectScopeInputSchema

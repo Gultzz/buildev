@@ -16,11 +16,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem("language") as Language;
-    if (saved && (saved === "pt" || saved === "en")) {
+    if (saved && (saved === "pt" || saved === "en" || saved === "es")) {
       setLanguage(saved);
     } else {
       const browserLang = navigator.language.split("-")[0];
-      if (browserLang === "pt" || browserLang === "en") {
+      if (browserLang === "pt" || browserLang === "en" || browserLang === "es") {
         setLanguage(browserLang as Language);
       }
     }

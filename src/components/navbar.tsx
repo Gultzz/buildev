@@ -70,6 +70,9 @@ export function Navbar() {
               <DropdownMenuItem onClick={() => setLanguage("en")} className="cursor-pointer">
                 English (EN)
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLanguage("es")} className="cursor-pointer">
+                Español (ES)
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -88,6 +91,7 @@ export function Navbar() {
             <DropdownMenuContent align="end" className="glass">
               <DropdownMenuItem onClick={() => setLanguage("pt")}>PT</DropdownMenuItem>
               <DropdownMenuItem onClick={() => setLanguage("en")}>EN</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLanguage("es")}>ES</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <Button variant="ghost" size="icon">
