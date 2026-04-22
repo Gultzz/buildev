@@ -5,27 +5,38 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { clarifyProjectScope, ClarifyProjectScopeOutput } from "@/ai/flows/clarify-project-scope";
-import { Sparkles, Loader2, CheckCircle2, ChevronRight, Lightbulb } from "lucide-react";
+import { Sparkles, Loader2, CheckCircle2, ChevronRight, Lightbulb, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/language-context";
+import { useToast } from "@/hooks/use-toast";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function AIClarifier() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<ClarifyProjectScopeOutput | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const { language, t } = useLanguage();
+  const { toast } = useToast();
 
   const handleClarify = async () => {
     if (!input.trim()) return;
     setIsLoading(true);
+    setError(null);
     try {
       const output = await clarifyProjectScope({ 
         initialProjectIdea: input,
         language: language 
       });
       setResult(output);
-    } catch (error) {
-      console.error("AI Clarification failed", error);
+    } catch (err: any) {
+      console.error("AI Clarification failed", err);
+      setError(language === "pt" ? "Erro ao conectar com a IA. Verifique se a API Key foi configurada." : "AI Connection failed. Check if API Key is configured.");
+      toast({
+        variant: "destructive",
+        title: language === "pt" ? "Erro na IA" : "AI Error",
+        description: language === "pt" ? "Não foi possível processar sua ideia agora." : "Could not process your idea right now.",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -37,9 +48,9 @@ export function AIClarifier() {
       
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="text-center mb-16">
-          <Badge className="mb-4 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20">
+          <div className="inline-block px-3 py-1 rounded-full text-xs font-semibold border bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 mb-4 transition-colors">
             {t.aiClarifier.badge}
-          </Badge>
+          </div>
           <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4">{t.aiClarifier.title}</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             {t.aiClarifier.subtitle}
@@ -64,6 +75,17 @@ export function AIClarifier() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
               />
+              
+              {error && (
+                <Alert variant="destructive" className="bg-destructive/10 border-destructive/20 text-destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>Erro</AlertTitle>
+                  <AlertDescription className="text-xs">
+                    {error}
+                  </AlertDescription>
+                </Alert>
+              )}
+
               <Button 
                 onClick={handleClarify} 
                 disabled={isLoading || !input.trim()}
@@ -144,13 +166,5 @@ export function AIClarifier() {
         </div>
       </div>
     </section>
-  );
-}
-
-function Badge({ children, className }: { children: React.ReactNode, className?: string }) {
-  return (
-    <span className={cn("px-3 py-1 rounded-full text-xs font-semibold border inline-block", className)}>
-      {children}
-    </span>
   );
 }

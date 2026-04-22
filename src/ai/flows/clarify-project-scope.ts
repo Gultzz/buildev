@@ -1,10 +1,10 @@
 'use server';
 /**
- * @fileOverview An AI agent that refines and clarifies nascent project ideas into a structured project scope.
+ * @fileOverview Um agente de IA especializado que refina ideias iniciais em escopos de projeto estruturados.
  *
- * - clarifyProjectScope - A function that handles the project clarification process.
- * - ClarifyProjectScopeInput - The input type for the clarifyProjectScope function.
- * - ClarifyProjectScopeOutput - The return type for the clarifyProjectScope function.
+ * - clarifyProjectScope - Função que processa a clarificação do projeto.
+ * - ClarifyProjectScopeInput - Tipo de entrada para a função.
+ * - ClarifyProjectScopeOutput - Tipo de saída para a função.
  */
 
 import { ai } from '@/ai/genkit';
@@ -13,43 +13,34 @@ import { z } from 'genkit';
 const ClarifyProjectScopeInputSchema = z.object({
   initialProjectIdea: z
     .string()
-    .describe(
-      'A high-level concept or nascent idea for a software project provided by a potential client.'
-    ),
-  language: z.string().describe('The language in which the response should be provided (e.g., pt, en, es).').default('pt'),
+    .describe('A ideia de alto nível ou conceito inicial fornecido pelo cliente.'),
+  language: z
+    .string()
+    .describe('O idioma em que a resposta deve ser fornecida (ex: pt, en, es).')
+    .default('pt'),
 });
-export type ClarifyProjectScopeInput = z.infer<
-  typeof ClarifyProjectScopeInputSchema
->;
+
+export type ClarifyProjectScopeInput = z.infer<typeof ClarifyProjectScopeInputSchema>;
 
 const ClarifyProjectScopeOutputSchema = z.object({
   projectName: z
     .string()
-    .describe(
-      'A concise and appealing suggested name for the software project.'
-    ),
+    .describe('Um nome conciso e atraente sugerido para o projeto.'),
   projectSummary: z
     .string()
-    .describe(
-      'A structured summary of the refined project scope, outlining its core purpose and value proposition.'
-    ),
+    .describe('Um resumo estruturado do escopo refinado, delineando propósito e valor.'),
   keyFeatures: z
     .array(z.string())
-    .describe('A list of potential key features for the project.'),
+    .describe('Lista de funcionalidades principais recomendadas.'),
   technicalConsiderations: z
     .array(z.string())
-    .describe(
-      'Important technical aspects, such as suggested technologies, scalability, or integration needs.'
-    ),
+    .describe('Aspectos técnicos importantes: tecnologias, escalabilidade ou integrações.'),
   nextSteps: z
     .array(z.string())
-    .describe(
-      'Recommended next steps for the client to further define or kick-off the project with Buildei.'
-    ),
+    .describe('Próximos passos recomendados para iniciar a forja do projeto.'),
 });
-export type ClarifyProjectScopeOutput = z.infer<
-  typeof ClarifyProjectScopeOutputSchema
->;
+
+export type ClarifyProjectScopeOutput = z.infer<typeof ClarifyProjectScopeOutputSchema>;
 
 export async function clarifyProjectScope(
   input: ClarifyProjectScopeInput
@@ -61,17 +52,16 @@ const clarifyProjectScopePrompt = ai.definePrompt({
   name: 'clarifyProjectScopePrompt',
   input: { schema: ClarifyProjectScopeInputSchema },
   output: { schema: ClarifyProjectScopeOutputSchema },
-  prompt: `You are an expert software consultant and project clarifier for Buildei, a software house.
-Your task is to take a client's high-level project idea and transform it into a structured and refined project scope.
+  prompt: `Você é um consultor sênior de engenharia de software da Buildei Forge.
+Sua missão é transformar a ideia bruta de um cliente em um escopo técnico profissional, minimalista e de alta performance.
 
-CRITICAL: You MUST provide the output in the requested language: {{{language}}}.
+CRÍTICO: Você DEVE fornecer a saída inteiramente no idioma: {{{language}}}.
 
-Be professional, thorough, and provide clear, actionable insights.
+Seja extremamente profissional, focado em excelência técnica e design minimalista.
 
-Client's Initial Project Idea: {{{initialProjectIdea}}}
+Ideia do Cliente: {{{initialProjectIdea}}}
 
-Please provide a structured output including a suggested project name, a summary, key features, technical considerations, and clear next steps.
-`,
+Estruture o escopo focando no que é essencial para um MVP de elite.`,
 });
 
 const clarifyProjectScopeFlow = ai.defineFlow(
@@ -83,7 +73,7 @@ const clarifyProjectScopeFlow = ai.defineFlow(
   async (input) => {
     const { output } = await clarifyProjectScopePrompt(input);
     if (!output) {
-      throw new Error('Failed to clarify project scope.');
+      throw new Error('Não foi possível gerar a clarificação do escopo.');
     }
     return output;
   }
