@@ -52,7 +52,7 @@ const clarifyProjectScopePrompt = ai.definePrompt({
   name: 'clarifyProjectScopePrompt',
   input: { schema: ClarifyProjectScopeInputSchema },
   output: { schema: ClarifyProjectScopeOutputSchema },
-  prompt: `Você é um consultor sênior de engenharia de software da Buildei Forge.
+  prompt: `Você é um consultor sênior de engenharia de software da Buildev.
 Sua missão é transformar a ideia bruta de um cliente em um escopo técnico profissional, minimalista e de alta performance.
 
 CRÍTICO: Você DEVE fornecer a saída inteiramente no idioma: {{{language}}}.

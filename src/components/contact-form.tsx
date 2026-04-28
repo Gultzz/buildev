@@ -12,10 +12,10 @@ import { Mail, MessageSquare, User, Send } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 
 const formSchema = z.object({
-  name: z.string().min(2, "Name is too short"),
-  email: z.string().email("Invalid email address"),
+  name: z.string().min(2),
+  email: z.string().email(),
   company: z.string().optional(),
-  message: z.string().min(10, "Tell us a bit more about your project"),
+  message: z.string().min(10),
 });
 
 export function ContactForm() {
@@ -57,7 +57,7 @@ export function ContactForm() {
                 </div>
                 <div>
                   <p className="font-bold">{t.contact.emailUs}</p>
-                  <p className="text-muted-foreground">hello@buildeiforge.com</p>
+                  <p className="text-muted-foreground">hello@buildev.com</p>
                 </div>
               </div>
               <div className="flex gap-4">
@@ -84,7 +84,7 @@ export function ContactForm() {
                         <FormLabel className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{t.contact.form.name}</FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                            <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground z-10" aria-hidden="true" />
                             <Input placeholder="John Doe" className="pl-10 glass border-none focus-visible:ring-primary" {...field} />
                           </div>
                         </FormControl>
@@ -100,7 +100,7 @@ export function ContactForm() {
                         <FormLabel className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{t.contact.form.email}</FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                            <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground z-10" aria-hidden="true" />
                             <Input placeholder="john@example.com" className="pl-10 glass border-none focus-visible:ring-primary" {...field} />
                           </div>
                         </FormControl>
@@ -140,7 +140,7 @@ export function ContactForm() {
                   )}
                 />
                 <Button type="submit" size="lg" className="w-full h-14 text-base font-bold glow-primary">
-                  {t.contact.form.submit} <Send className="ml-2 h-5 w-5" />
+                  {t.contact.form.submit} <Send className="ml-2 h-5 w-5" aria-hidden="true" />
                 </Button>
               </form>
             </Form>

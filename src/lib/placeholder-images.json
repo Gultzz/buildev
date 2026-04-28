@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-bg",
+      "description": "Abstract futuristic digital landscape with green lines",
+      "imageUrl": "https://picsum.photos/seed/buildei1/1920/1080",
+      "imageHint": "futuristic technology"
+    },
+    {
+      "id": "project-1",
+      "description": "Site para o livro Além da Adoção",
+      "imageUrl": "/alemdaadocao.png",
+      "imageHint": "landing page"
+    },
+    {
+      "id": "project-2",
+      "description": "Mobile application interface on a smartphone",
+      "imageUrl": "https://picsum.photos/seed/buildei3/800/600",
+      "imageHint": "mobile app"
+    },
+    {
+      "id": "project-3",
+      "description": "Cloud architecture diagram abstract",
+      "imageUrl": "https://picsum.photos/seed/buildei4/800/600",
+      "imageHint": "cloud network"
+    }
+  ]
 }

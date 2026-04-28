@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { Language, translations, TranslationKey } from "@/lib/translations";
+import { z } from "zod";
 
 type LanguageContextType = {
   language: Language;
@@ -25,6 +26,34 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       }
     }
   }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+    
+    const zodErrs = translations[language].zodErrors;
+    z.setErrorMap((issue, ctx) => {
+      let message = ctx.defaultError;
+      
+      if (issue.code === z.ZodIssueCode.invalid_type) {
+        if (issue.received === "undefined") {
+          message = zodErrs.required;
+        } else {
+          message = zodErrs.invalidType;
+        }
+      } else if (issue.code === z.ZodIssueCode.invalid_string && issue.validation === "email") {
+        message = zodErrs.invalidEmail;
+      } else if (issue.code === z.ZodIssueCode.too_small) {
+        if (issue.path[0] === "name") {
+          message = zodErrs.nameTooShort;
+        } else if (issue.path[0] === "message") {
+          message = zodErrs.messageTooShort;
+        } else {
+          message = zodErrs.tooShortGeneric.replace("{min}", String(issue.minimum));
+        }
+      }
+      return { message };
+    });
+  }, [language]);
 
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang);

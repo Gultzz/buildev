@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Code2, Menu, Globe } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -12,6 +13,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
+import { Sparkles } from "lucide-react";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -37,12 +45,7 @@ export function Navbar() {
         isScrolled ? "glass shadow-xl" : "bg-transparent"
       )}>
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center glow-primary transition-transform group-hover:scale-110">
-            <Code2 className="text-primary-foreground h-6 w-6" />
-          </div>
-          <span className="font-headline font-bold text-xl tracking-tight hidden sm:block">
-            BUILDEI <span className="text-primary">FORGE</span>
-          </span>
+          <Image src="/logo.svg" alt="Logo" width={140}  height={140} priority />
         </Link>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-medium">
@@ -94,9 +97,35 @@ export function Navbar() {
               <DropdownMenuItem onClick={() => setLanguage("es")}>ES</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="ghost" size="icon">
-            <Menu className="h-6 w-6" />
-          </Button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="glass-dark border-white/10">
+              <div className="flex flex-col gap-8 mt-12">
+                <SheetClose asChild>
+                  <Link href="#services" className="text-xl font-medium hover:text-primary transition-colors">{t.nav.services}</Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link href="#portfolio" className="text-xl font-medium hover:text-primary transition-colors">{t.nav.portfolio}</Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link href="#ai-clarifier" className="text-xl font-medium hover:text-primary transition-colors flex items-center gap-2">
+                    <Sparkles className="h-5 w-5 text-primary" />
+                    {t.nav.aiTool}
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link href="#contact" className="mt-4">
+                    <Button size="lg" className="w-full glow-primary text-base">{t.nav.startBuilding}</Button>
+                  </Link>
+                </SheetClose>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </nav>

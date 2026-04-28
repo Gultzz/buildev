@@ -31,11 +31,14 @@ export function AIClarifier() {
       setResult(output);
     } catch (err: any) {
       console.error("AI Clarification failed", err);
-      setError(language === "pt" ? "Erro ao conectar com a IA. Verifique se a API Key foi configurada." : "AI Connection failed. Check if API Key is configured.");
+      // @ts-ignore
+      setError(t.aiClarifier.error || "AI Connection failed. Check if API Key is configured.");
       toast({
         variant: "destructive",
-        title: language === "pt" ? "Erro na IA" : "AI Error",
-        description: language === "pt" ? "Não foi possível processar sua ideia agora." : "Could not process your idea right now.",
+        // @ts-ignore
+        title: t.aiClarifier.errorTitle || "AI Error",
+        // @ts-ignore
+        description: t.aiClarifier.errorDesc || "Could not process your idea right now.",
       });
     } finally {
       setIsLoading(false);
@@ -61,7 +64,7 @@ export function AIClarifier() {
           <Card className="lg:col-span-5 glass-dark border-primary/20 shadow-primary/5">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Lightbulb className="w-5 h-5 text-accent" />
+                <Lightbulb className="w-5 h-5 text-accent" aria-hidden="true" />
                 {t.aiClarifier.cardTitle}
               </CardTitle>
               <CardDescription>
@@ -78,7 +81,7 @@ export function AIClarifier() {
               
               {error && (
                 <Alert variant="destructive" className="bg-destructive/10 border-destructive/20 text-destructive">
-                  <AlertCircle className="h-4 w-4" />
+                  <AlertCircle className="h-4 w-4" aria-hidden="true" />
                   <AlertTitle>Erro</AlertTitle>
                   <AlertDescription className="text-xs">
                     {error}
@@ -98,20 +101,20 @@ export function AIClarifier() {
                   </>
                 ) : (
                   <>
-                    {t.aiClarifier.button} <Sparkles className="ml-2 h-5 w-5" />
+                    {t.aiClarifier.button} <Sparkles className="ml-2 h-5 w-5" aria-hidden="true" />
                   </>
                 )}
               </Button>
             </CardContent>
           </Card>
 
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7" aria-live="polite" aria-atomic="true">
             {result ? (
               <div className="animate-fade-in space-y-6">
                 <Card className="glass border-primary/30">
                   <CardHeader>
                     <div className="flex items-center gap-2 text-primary mb-2">
-                      <CheckCircle2 className="w-5 h-5" />
+                      <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
                       <span className="text-xs font-bold uppercase tracking-widest">{t.aiClarifier.scopeDefined}</span>
                     </div>
                     <CardTitle className="font-headline text-3xl text-accent">{result.projectName}</CardTitle>
@@ -156,9 +159,9 @@ export function AIClarifier() {
                 </Card>
               </div>
             ) : (
-              <div className="h-full flex flex-col items-center justify-center border-2 border-dashed border-white/5 rounded-3xl p-12 text-center text-muted-foreground/40 min-h-[400px]">
-                <Sparkles className="w-16 h-16 mb-4 opacity-20" />
-                <p className="text-lg font-headline font-medium">{t.aiClarifier.resultsPlaceholder}</p>
+              <div className="h-full flex flex-col items-center justify-center border-2 border-dashed border-white/10 rounded-3xl p-12 text-center text-muted-foreground min-h-[400px]">
+                <Sparkles className="w-16 h-16 mb-4 opacity-50" aria-hidden="true" />
+                <p className="text-lg font-headline font-medium text-foreground">{t.aiClarifier.resultsPlaceholder}</p>
                 <p className="text-sm">{t.aiClarifier.resultsSub}</p>
               </div>
             )}
